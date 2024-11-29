@@ -1,0 +1,384 @@
+#:import Factory kivy.factory.Factory
+#:import ScrollEffect  kivy.effects.scroll.ScrollEffect
+#: import TreeViewLabel kivy.uix.treeview.TreeViewLabel
+
+
+<BackgroundColor@Widget>
+    background_color: [175 / 255, 175 / 255, 175 / 255, 1]
+    canvas.before:
+        Color:
+            rgba: root.background_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+# Now you can simply Mix the `BackgroundColor` class with almost
+# any other widget... to give it a background.
+<BackgroundLabel@Label+BackgroundColor>
+    font_size: '20sp'
+
+    background_color: 0, 0, 0, 0
+    # Default the background color for this label
+    # to r 0, g 0, b 0, a 0
+
+
+
+<MenuSlide>:
+    id: MenuGiratorio
+    size_hint: None, None
+    #size: '400dp', '300dp'
+    ScrollView:
+        size_hint: 1, 1
+        BoxLayout:
+            size_hint: 1, 1
+            orientation: 'vertical'
+            background: 'white.png'
+            #size: 400, 300
+            color: 0,0,0,1
+            canvas.before:
+                Color:
+                    rgba: [175 / 255, 175 / 255, 175 / 255, 1]
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+                Color:
+                    rgba: [175 / 255, 175 / 255, 175 / 255, 1]
+            pos: 0, 0
+
+            BackgroundLabel
+                size_hint: 1, 0.2
+                text: 'Transposición'
+            Spinner:
+                id: transposition
+                size_hint: 1, 0.4
+                text: "C"
+                font_size: '20sp'
+                values: ["C", "Bb 2M", "G 4P", "F 5P", "Eb 6M", "Bb 9M", "Eb 13M"]
+                option_cls: Factory.get("MySpinnerOption2")
+            BackgroundLabel
+                size_hint: 1, 0.2
+                text: 'Subdivisión Metrónomo'
+            Spinner:
+                size_hint: 1, 0.4
+                text: "1"
+                font_size: '20sp'
+                values: ["1", "2", "3", "4", "5", "6", "7"]
+                id: subdivision_metrono
+                option_cls: Factory.get("MySpinnerOption2")
+
+            BackgroundLabel
+                size_hint: 1, 0.2
+                text: 'Ocultar'
+            Spinner:
+                id: ocultar
+                size_hint: 1, 0.4
+                text: "1"
+                font_size: '20sp'
+                values: ["1 pulso", "2 pulsos", "Compás"]
+                option_cls: Factory.get("MySpinnerOption2")
+
+
+
+
+<MySpinnerOption@SpinnerOption>:
+    background_normal: 'white.png'
+    background_down: 'press.png'
+    color: (0,0,0,1)
+
+<MySpinnerOption2@SpinnerOption>:
+    background_normal: 'press.png'
+    background_down: 'white.png'
+    color: (0,0,0,1)
+
+
+<DRToggle@ToggleButton>:
+    width: dp(120)
+    height: dp(30)
+    font_size: '20sp'
+    text_size: self.size
+    halign: 'center'
+    valign: 'middle'
+
+<AllBtn@Button>:
+    width: dp(120)
+    height: dp(30)
+    color: [175 / 255, 175 / 255, 175 / 255, 1]
+    text: "TODOS"
+    font_size: '20sp'
+    text_size: self.size
+    halign: 'center'
+    valign: 'middle'
+
+<NoneBtn@Button>:
+    width: dp(120)
+    height: dp(30)
+    color: [175 / 255, 175 / 255, 175 / 255, 1]
+    text: "NINGUNO"
+    font_size: '20sp'
+    text_size: self.size
+    halign: 'center'
+    valign: 'middle'
+
+
+WindowManager:
+	MainWindow:
+	SolfeoControlPlayWindow:
+    	id: controlPlay
+    PresetScreen:
+        id: PresetScreen
+    LoginScreen:
+        id: LoginScreen
+
+
+
+<MainWindow>:
+    id: mainWindow
+	name: "main"
+
+	GridLayout:
+		cols: 2
+
+		Button:
+			id: solfeo
+			background_normal: 'SolfeoBtnormal.png'
+			background_down: 'SolfeoBtpress.png'
+            on_release:
+                root.envio_presets("inicio")
+
+		Button:
+			id: aural
+			background_normal:'AuralBtnormal.png'
+			background_down: 'AuralBtpress.png'
+
+
+<LoginScreen>:
+	name: "LoginScreen"
+    id: LoginScreen
+    GridLayout:
+        rows: 10
+        Label:
+            id: ActionBar
+        	size_hint_y: None
+        	size_y: 42
+        Label:
+            halign: 'center'
+            text_size: root.width - 10, None
+            font_size: '18sp'
+            text: "Revise en su cuenta de correo electrónico los datos enviado\ndesde accounts@riedmusicapp.com"
+        Label:
+            size_hint: None, None
+            size: root.width,'40dp'
+            text: "Instructor"
+        TextInput:
+            size_hint: None, None
+            halign: 'center'
+            size: root.width,'40dp'
+            font_size: '20sp'
+            multiline: False
+            id: instructorInput
+        Label:
+            size_hint: None, None
+            size: root.width,'40dp'
+            text: "Estudiante"
+        TextInput:
+            halign: 'center'
+            size_hint: None, None
+            size: root.width,'40dp'
+            size_hint: None, None
+            font_size: '20sp'
+            multiline: False
+            id: EstudianteInput
+        Label:
+            size_hint: None, None
+            size: root.width,'40dp'
+            text: "Contraseña"
+        TextInput:
+            halign: 'center'
+            size_hint: None, None
+            size: root.width,'40dp'
+            size_hint: None, None
+            font_size: '20sp'
+            multiline: False
+            id: PasswordInput
+        GridLayout:
+            size_hint: None, None
+            size: root.width,'60dp'
+            cols: 5
+            Label:
+            Label:
+            Button:
+                text: "Conectar"
+                on_release: root.login_student(instructorInput.text, EstudianteInput.text, PasswordInput.text)
+            Label:
+            Label:
+
+<PresetScreen>:
+	name: "PresetScreen"
+    id: PresetScreen
+    GridLayout:
+        rows: 2
+        background_color: [1,1,1,1]
+        Label:
+            id: ActionBar
+            size_hint_y: None
+            size_y: 42
+        GridLayout:
+            rows: 2
+            id: GridcontenedorLabel
+            ScrollView:
+                size_hint_y: 6
+                id: scrollerpreset
+
+
+            GridLayout:
+                id: ContenedorBotones
+                size_hint_y: 1
+                cols: 5
+                Label:
+                Button:
+                    id: CargarBoton
+                    text: "Cargar"
+                    font_size: '20sp'
+                    on_release:
+                        root.cargar_preset()
+						root.manager.transition.direction = "down"
+
+                Button:
+                    id: BorrarBoton
+                    text: "Borrar"
+                    font_size: '20sp'
+                    on_release: root.borrar_preset(BorrarBoton.text)
+                Button:
+                    id: VolverBoton
+                    text: "Volver"
+                    font_size: '20sp'
+                    on_release:
+                        app.root.current = "solfeo"
+						root.manager.transition.direction = "down"
+                        root.clear()
+                Label:
+
+
+
+
+<SolfeoControlPlayWindow>:
+	name: "controlPlay"
+    id: controlPlay
+
+
+	GridLayout:
+	    id: base1
+		rows: 4
+        background_color: [1,1,1,1]
+        Label:
+            id: ActionBar
+        	size_hint_y: None
+        	size_y: 42
+        GridLayout:
+            cols: 8
+			size_hint_y: .125
+
+            Label:
+                id: info1
+                font_size: '20sp'
+
+
+#			id: ActionBarRied
+#			DRToggle:
+#			    text: "=====\n=====\n====="
+#			    id: MenuBoton
+#			    on_release: root.menudeslizable()
+  #          Label:
+  #              text: "Tempo"
+  #              bold: True
+  #              font_size: '20sp'
+  #              text_size: self.size
+  #              halign: 'right'
+  #              valign: 'middle'
+  #          Button:
+  #              id: menos5
+  #              text: "-5"
+  #              on_release: root.updateTempo(menos5.text)
+  #          Button:
+  #              id: menos1
+  #              text: "-1"
+  #              on_release: root.updateTempo(menos1.text)
+  #          Label:
+  ##              id: tempo
+  #              text: "60"
+  ##              font_size: '30sp'
+  #              bold: True
+  #          Button:
+  #              id: mas1
+  #              text: "+1"
+  #              on_release: root.updateTempo(mas1.text)
+  #          Button:
+  #              id: mas5
+  #              text: "+5"
+  #              on_release: root.updateTempo(mas5.text)
+
+        ScrollView:
+            size_hint_y: .75
+            id: scroller
+
+            FloatLayout:
+                size_hint_y: 2.5
+                id: lienzo
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, 1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                    Color:
+                        rgba: (0, 0, 0, 1)
+
+
+        BoxLayout:
+			size_hint: 1, .125
+
+            padding: [10, 10, 10, 10]
+
+
+            #Spinner:
+            #    id: tipo
+            #    text: "Rítmico"
+            #    font_size: '20sp'
+            #    values: ["Rítmico", "Melódico"]
+            #    option_cls: Factory.get("MySpinnerOption2")
+            #    on_text: root.tipo(self)
+
+
+
+            Button:
+                text: "Nuevo"
+                font_size: '20sp'
+                on_release:
+                    root.clear_everything()
+                    root.crear_nuevo()
+
+
+
+
+            Button:
+                text: "Avanzar"
+                font_size: '20sp'
+                on_release:
+                    root.avance()
+
+            Button:
+                text: "Retroceder"
+                font_size: '20sp'
+                on_release:
+                    root.retroceder()
+
+            Button:
+                text: "Reiniciar"
+                font_size: '20sp'
+                on_release:
+                    root.reiniciar()
+
+
+
+
+
+
